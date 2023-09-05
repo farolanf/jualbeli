@@ -59,6 +59,11 @@ config :jualbeli, JualbeliWeb.Endpoint,
     ]
   ]
 
+config :jualbeli, Jualbeli.Mailer,
+  adapter: Swoosh.Adapters.SMTP,
+  relay: "localhost",
+  port: 1025
+
 # Enable dev routes for dashboard and mailbox
 config :jualbeli, dev_routes: true
 
