@@ -19,4 +19,22 @@ defmodule Jualbeli.CatalogFixtures do
 
     product
   end
+
+  @doc """
+  Generate a highlight.
+  """
+  def highlight_fixture(attrs \\ %{}) do
+    {:ok, highlight} =
+      attrs
+      |> Enum.into(%{
+        duration_days: 42,
+        expired_at: "some expired_at",
+        max_points: 42,
+        point_price: 42,
+        points: 42
+      })
+      |> Jualbeli.Catalog.create_highlight()
+
+    highlight
+  end
 end

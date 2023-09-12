@@ -60,4 +60,66 @@ defmodule Jualbeli.CatalogTest do
       assert %Ecto.Changeset{} = Catalog.change_product(product)
     end
   end
+
+  describe "highlights" do
+    alias Jualbeli.Catalog.Highlight
+
+    import Jualbeli.CatalogFixtures
+
+    @invalid_attrs %{duration_days: nil, expired_at: nil, max_points: nil, point_price: nil, points: nil}
+
+    test "list_highlights/0 returns all highlights" do
+      highlight = highlight_fixture()
+      assert Catalog.list_highlights() == [highlight]
+    end
+
+    test "get_highlight!/1 returns the highlight with given id" do
+      highlight = highlight_fixture()
+      assert Catalog.get_highlight!(highlight.id) == highlight
+    end
+
+    test "create_highlight/1 with valid data creates a highlight" do
+      valid_attrs = %{duration_days: 42, expired_at: "some expired_at", max_points: 42, point_price: 42, points: 42}
+
+      assert {:ok, %Highlight{} = highlight} = Catalog.create_highlight(valid_attrs)
+      assert highlight.duration_days == 42
+      assert highlight.expired_at == "some expired_at"
+      assert highlight.max_points == 42
+      assert highlight.point_price == 42
+      assert highlight.points == 42
+    end
+
+    test "create_highlight/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Catalog.create_highlight(@invalid_attrs)
+    end
+
+    test "update_highlight/2 with valid data updates the highlight" do
+      highlight = highlight_fixture()
+      update_attrs = %{duration_days: 43, expired_at: "some updated expired_at", max_points: 43, point_price: 43, points: 43}
+
+      assert {:ok, %Highlight{} = highlight} = Catalog.update_highlight(highlight, update_attrs)
+      assert highlight.duration_days == 43
+      assert highlight.expired_at == "some updated expired_at"
+      assert highlight.max_points == 43
+      assert highlight.point_price == 43
+      assert highlight.points == 43
+    end
+
+    test "update_highlight/2 with invalid data returns error changeset" do
+      highlight = highlight_fixture()
+      assert {:error, %Ecto.Changeset{}} = Catalog.update_highlight(highlight, @invalid_attrs)
+      assert highlight == Catalog.get_highlight!(highlight.id)
+    end
+
+    test "delete_highlight/1 deletes the highlight" do
+      highlight = highlight_fixture()
+      assert {:ok, %Highlight{}} = Catalog.delete_highlight(highlight)
+      assert_raise Ecto.NoResultsError, fn -> Catalog.get_highlight!(highlight.id) end
+    end
+
+    test "change_highlight/1 returns a highlight changeset" do
+      highlight = highlight_fixture()
+      assert %Ecto.Changeset{} = Catalog.change_highlight(highlight)
+    end
+  end
 end
