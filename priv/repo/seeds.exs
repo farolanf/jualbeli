@@ -9,3 +9,7 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+alias Jualbeli.Accounts
+
+Accounts.register_user(%{email: "admin@jb.farol.dev", password: System.fetch_env!("PASSWORD")})

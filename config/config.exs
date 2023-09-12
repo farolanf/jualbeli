@@ -8,7 +8,8 @@
 import Config
 
 config :jualbeli,
-  ecto_repos: [Jualbeli.Repo]
+  ecto_repos: [Jualbeli.Repo],
+  admin_email: "admin@jb.farol.dev"
 
 # Configures the endpoint
 config :jualbeli, JualbeliWeb.Endpoint,

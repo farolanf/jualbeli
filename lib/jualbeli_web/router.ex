@@ -24,6 +24,15 @@ defmodule JualbeliWeb.Router do
     get "/browse", ProductController, :index
   end
 
+  scope "/", JualbeliWeb do
+    pipe_through [:browser, :require_authenticated_user]
+
+    live_session :admin,
+      on_mount: [{JualbeliWeb.UserAuth, :ensure_authenticated}] do
+      live "/admin", AdminLive, :home
+    end
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", JualbeliWeb do
   #   pipe_through :api
