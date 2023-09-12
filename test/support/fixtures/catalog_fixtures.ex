@@ -37,4 +37,21 @@ defmodule Jualbeli.CatalogFixtures do
 
     highlight
   end
+
+  @doc """
+  Generate a location.
+  """
+  def location_fixture(attrs \\ %{}) do
+    {:ok, location} =
+      attrs
+      |> Enum.into(%{
+        lat: "120.5",
+        lng: "120.5",
+        loc_type: "some loc_type",
+        name: "some name"
+      })
+      |> Jualbeli.Catalog.create_location()
+
+    location
+  end
 end

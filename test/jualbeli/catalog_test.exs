@@ -122,4 +122,64 @@ defmodule Jualbeli.CatalogTest do
       assert %Ecto.Changeset{} = Catalog.change_highlight(highlight)
     end
   end
+
+  describe "locations" do
+    alias Jualbeli.Catalog.Location
+
+    import Jualbeli.CatalogFixtures
+
+    @invalid_attrs %{lat: nil, lng: nil, loc_type: nil, name: nil}
+
+    test "list_locations/0 returns all locations" do
+      location = location_fixture()
+      assert Catalog.list_locations() == [location]
+    end
+
+    test "get_location!/1 returns the location with given id" do
+      location = location_fixture()
+      assert Catalog.get_location!(location.id) == location
+    end
+
+    test "create_location/1 with valid data creates a location" do
+      valid_attrs = %{lat: "120.5", lng: "120.5", loc_type: "some loc_type", name: "some name"}
+
+      assert {:ok, %Location{} = location} = Catalog.create_location(valid_attrs)
+      assert location.lat == Decimal.new("120.5")
+      assert location.lng == Decimal.new("120.5")
+      assert location.loc_type == "some loc_type"
+      assert location.name == "some name"
+    end
+
+    test "create_location/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Catalog.create_location(@invalid_attrs)
+    end
+
+    test "update_location/2 with valid data updates the location" do
+      location = location_fixture()
+      update_attrs = %{lat: "456.7", lng: "456.7", loc_type: "some updated loc_type", name: "some updated name"}
+
+      assert {:ok, %Location{} = location} = Catalog.update_location(location, update_attrs)
+      assert location.lat == Decimal.new("456.7")
+      assert location.lng == Decimal.new("456.7")
+      assert location.loc_type == "some updated loc_type"
+      assert location.name == "some updated name"
+    end
+
+    test "update_location/2 with invalid data returns error changeset" do
+      location = location_fixture()
+      assert {:error, %Ecto.Changeset{}} = Catalog.update_location(location, @invalid_attrs)
+      assert location == Catalog.get_location!(location.id)
+    end
+
+    test "delete_location/1 deletes the location" do
+      location = location_fixture()
+      assert {:ok, %Location{}} = Catalog.delete_location(location)
+      assert_raise Ecto.NoResultsError, fn -> Catalog.get_location!(location.id) end
+    end
+
+    test "change_location/1 returns a location changeset" do
+      location = location_fixture()
+      assert %Ecto.Changeset{} = Catalog.change_location(location)
+    end
+  end
 end
