@@ -15,5 +15,6 @@ defmodule Jualbeli.Catalog.Category do
     category
     |> cast(attrs, [:title])
     |> validate_required([:title])
+    |> validate_length(:title, min: 2, max: 50)
   end
 end
