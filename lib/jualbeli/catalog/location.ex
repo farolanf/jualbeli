@@ -1,13 +1,14 @@
 defmodule Jualbeli.Catalog.Location do
   use Ecto.Schema
   import Ecto.Changeset
+  alias Jualbeli.Catalog.Location
 
   schema "locations" do
     field :lat, :decimal
     field :lng, :decimal
     field :loc_type, :string
     field :name, :string
-    field :parent_id, :id
+    belongs_to :parent, Location
 
     timestamps()
   end

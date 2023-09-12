@@ -293,4 +293,388 @@ defmodule Jualbeli.Catalog do
   def change_location(%Location{} = location, attrs \\ %{}) do
     Location.changeset(location, attrs)
   end
+
+  alias Jualbeli.Catalog.Category
+
+  @doc """
+  Returns the list of categories.
+
+  ## Examples
+
+      iex> list_categories()
+      [%Category{}, ...]
+
+  """
+  def list_categories do
+    Repo.all(Category)
+  end
+
+  @doc """
+  Gets a single category.
+
+  Raises `Ecto.NoResultsError` if the Category does not exist.
+
+  ## Examples
+
+      iex> get_category!(123)
+      %Category{}
+
+      iex> get_category!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_category!(id), do: Repo.get!(Category, id)
+
+  @doc """
+  Creates a category.
+
+  ## Examples
+
+      iex> create_category(%{field: value})
+      {:ok, %Category{}}
+
+      iex> create_category(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_category(attrs \\ %{}) do
+    %Category{}
+    |> Category.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a category.
+
+  ## Examples
+
+      iex> update_category(category, %{field: new_value})
+      {:ok, %Category{}}
+
+      iex> update_category(category, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_category(%Category{} = category, attrs) do
+    category
+    |> Category.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a category.
+
+  ## Examples
+
+      iex> delete_category(category)
+      {:ok, %Category{}}
+
+      iex> delete_category(category)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_category(%Category{} = category) do
+    Repo.delete(category)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking category changes.
+
+  ## Examples
+
+      iex> change_category(category)
+      %Ecto.Changeset{data: %Category{}}
+
+  """
+  def change_category(%Category{} = category, attrs \\ %{}) do
+    Category.changeset(category, attrs)
+  end
+
+  alias Jualbeli.Catalog.Attribute
+
+  @doc """
+  Returns the list of attributes.
+
+  ## Examples
+
+      iex> list_attributes()
+      [%Attribute{}, ...]
+
+  """
+  def list_attributes do
+    Repo.all(Attribute)
+  end
+
+  @doc """
+  Gets a single attribute.
+
+  Raises `Ecto.NoResultsError` if the Attribute does not exist.
+
+  ## Examples
+
+      iex> get_attribute!(123)
+      %Attribute{}
+
+      iex> get_attribute!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_attribute!(id), do: Repo.get!(Attribute, id)
+
+  @doc """
+  Creates a attribute.
+
+  ## Examples
+
+      iex> create_attribute(%{field: value})
+      {:ok, %Attribute{}}
+
+      iex> create_attribute(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_attribute(attrs \\ %{}) do
+    %Attribute{}
+    |> Attribute.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a attribute.
+
+  ## Examples
+
+      iex> update_attribute(attribute, %{field: new_value})
+      {:ok, %Attribute{}}
+
+      iex> update_attribute(attribute, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_attribute(%Attribute{} = attribute, attrs) do
+    attribute
+    |> Attribute.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a attribute.
+
+  ## Examples
+
+      iex> delete_attribute(attribute)
+      {:ok, %Attribute{}}
+
+      iex> delete_attribute(attribute)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_attribute(%Attribute{} = attribute) do
+    Repo.delete(attribute)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking attribute changes.
+
+  ## Examples
+
+      iex> change_attribute(attribute)
+      %Ecto.Changeset{data: %Attribute{}}
+
+  """
+  def change_attribute(%Attribute{} = attribute, attrs \\ %{}) do
+    Attribute.changeset(attribute, attrs)
+  end
+
+  alias Jualbeli.Catalog.CategoryAttribute
+
+  @doc """
+  Returns the list of categories_attributes.
+
+  ## Examples
+
+      iex> list_categories_attributes()
+      [%CategoryAttribute{}, ...]
+
+  """
+  def list_categories_attributes do
+    Repo.all(CategoryAttribute)
+  end
+
+  @doc """
+  Gets a single category_attribute.
+
+  Raises `Ecto.NoResultsError` if the Category attribute does not exist.
+
+  ## Examples
+
+      iex> get_category_attribute!(123)
+      %CategoryAttribute{}
+
+      iex> get_category_attribute!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_category_attribute!(id), do: Repo.get!(CategoryAttribute, id)
+
+  @doc """
+  Creates a category_attribute.
+
+  ## Examples
+
+      iex> create_category_attribute(%{field: value})
+      {:ok, %CategoryAttribute{}}
+
+      iex> create_category_attribute(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_category_attribute(attrs \\ %{}) do
+    %CategoryAttribute{}
+    |> CategoryAttribute.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a category_attribute.
+
+  ## Examples
+
+      iex> update_category_attribute(category_attribute, %{field: new_value})
+      {:ok, %CategoryAttribute{}}
+
+      iex> update_category_attribute(category_attribute, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_category_attribute(%CategoryAttribute{} = category_attribute, attrs) do
+    category_attribute
+    |> CategoryAttribute.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a category_attribute.
+
+  ## Examples
+
+      iex> delete_category_attribute(category_attribute)
+      {:ok, %CategoryAttribute{}}
+
+      iex> delete_category_attribute(category_attribute)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_category_attribute(%CategoryAttribute{} = category_attribute) do
+    Repo.delete(category_attribute)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking category_attribute changes.
+
+  ## Examples
+
+      iex> change_category_attribute(category_attribute)
+      %Ecto.Changeset{data: %CategoryAttribute{}}
+
+  """
+  def change_category_attribute(%CategoryAttribute{} = category_attribute, attrs \\ %{}) do
+    CategoryAttribute.changeset(category_attribute, attrs)
+  end
+
+  alias Jualbeli.Catalog.ProductAttribute
+
+  @doc """
+  Returns the list of products_attributes.
+
+  ## Examples
+
+      iex> list_products_attributes()
+      [%ProductAttribute{}, ...]
+
+  """
+  def list_products_attributes do
+    Repo.all(ProductAttribute)
+  end
+
+  @doc """
+  Gets a single product_attribute.
+
+  Raises `Ecto.NoResultsError` if the Product attribute does not exist.
+
+  ## Examples
+
+      iex> get_product_attribute!(123)
+      %ProductAttribute{}
+
+      iex> get_product_attribute!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_product_attribute!(id), do: Repo.get!(ProductAttribute, id)
+
+  @doc """
+  Creates a product_attribute.
+
+  ## Examples
+
+      iex> create_product_attribute(%{field: value})
+      {:ok, %ProductAttribute{}}
+
+      iex> create_product_attribute(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_product_attribute(attrs \\ %{}) do
+    %ProductAttribute{}
+    |> ProductAttribute.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a product_attribute.
+
+  ## Examples
+
+      iex> update_product_attribute(product_attribute, %{field: new_value})
+      {:ok, %ProductAttribute{}}
+
+      iex> update_product_attribute(product_attribute, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_product_attribute(%ProductAttribute{} = product_attribute, attrs) do
+    product_attribute
+    |> ProductAttribute.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a product_attribute.
+
+  ## Examples
+
+      iex> delete_product_attribute(product_attribute)
+      {:ok, %ProductAttribute{}}
+
+      iex> delete_product_attribute(product_attribute)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_product_attribute(%ProductAttribute{} = product_attribute) do
+    Repo.delete(product_attribute)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking product_attribute changes.
+
+  ## Examples
+
+      iex> change_product_attribute(product_attribute)
+      %Ecto.Changeset{data: %ProductAttribute{}}
+
+  """
+  def change_product_attribute(%ProductAttribute{} = product_attribute, attrs \\ %{}) do
+    ProductAttribute.changeset(product_attribute, attrs)
+  end
 end

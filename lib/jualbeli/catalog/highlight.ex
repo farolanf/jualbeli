@@ -1,6 +1,7 @@
 defmodule Jualbeli.Catalog.Highlight do
   use Ecto.Schema
   import Ecto.Changeset
+  alias Jualbeli.Accounts.User
 
   schema "highlights" do
     field :duration_days, :integer
@@ -8,7 +9,7 @@ defmodule Jualbeli.Catalog.Highlight do
     field :max_points, :integer
     field :point_price, :integer
     field :points, :integer
-    field :user_id, :id
+    belongs_to :user, User
 
     timestamps()
   end

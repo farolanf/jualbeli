@@ -1,14 +1,11 @@
-defmodule JualbeliWeb.AdminLive do
+defmodule JualbeliWeb.AdminCategoriesLive do
   use JualbeliWeb, :live_view
 
   def render(assigns) do
     ~H"""
     <.header class="text-center">
-      Admin
+      Categories
     </.header>
-    <div class="py-8">
-      <.link href={~p"/admin/categories"}>Categories</.link>
-    </div>
     """
   end
 

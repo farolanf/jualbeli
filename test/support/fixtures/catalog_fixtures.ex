@@ -54,4 +54,61 @@ defmodule Jualbeli.CatalogFixtures do
 
     location
   end
+
+  @doc """
+  Generate a category.
+  """
+  def category_fixture(attrs \\ %{}) do
+    {:ok, category} =
+      attrs
+      |> Enum.into(%{
+        title: "some title"
+      })
+      |> Jualbeli.Catalog.create_category()
+
+    category
+  end
+
+  @doc """
+  Generate a attribute.
+  """
+  def attribute_fixture(attrs \\ %{}) do
+    {:ok, attribute} =
+      attrs
+      |> Enum.into(%{
+        label: "some label",
+        type: "some type"
+      })
+      |> Jualbeli.Catalog.create_attribute()
+
+    attribute
+  end
+
+  @doc """
+  Generate a category_attribute.
+  """
+  def category_attribute_fixture(attrs \\ %{}) do
+    {:ok, category_attribute} =
+      attrs
+      |> Enum.into(%{
+
+      })
+      |> Jualbeli.Catalog.create_category_attribute()
+
+    category_attribute
+  end
+
+  @doc """
+  Generate a product_attribute.
+  """
+  def product_attribute_fixture(attrs \\ %{}) do
+    {:ok, product_attribute} =
+      attrs
+      |> Enum.into(%{
+        value: "some value"
+      })
+      |> Jualbeli.Catalog.create_product_attribute()
+
+    product_attribute
+  end
 end

@@ -30,6 +30,7 @@ defmodule JualbeliWeb.Router do
     live_session :admin,
       on_mount: [{JualbeliWeb.UserAuth, :ensure_authenticated}] do
       live "/admin", AdminLive, :home
+      live "/admin/categories", AdminCategoriesLive, :edit
     end
   end
 
