@@ -14,12 +14,26 @@ defmodule JualbeliWeb.AdminCategoriesLive do
       Categories
     </.header>
     <div class="space-y-12">
-      <button
-        phx-click="show_new_form"
-        class="text-xs font-bold text-blue-700"
-      >
-        New category
-      </button>
+      <div class="flex gap-6">
+        <button
+          phx-click="show_new_form"
+          class="text-xs font-bold text-blue-700"
+        >
+          New category
+        </button>
+        <button
+          phx-click="expand_all"
+          class="text-xs font-bold text-blue-700"
+        >
+          Expand all
+        </button>
+        <button
+          phx-click="collapse_all"
+          class="text-xs font-bold text-blue-700"
+        >
+          Collapse all
+        </button>
+      </div>
       <.live_component
         :if={@show_new_form == 0}
         module={NewCategoryForm}
@@ -179,6 +193,21 @@ defmodule JualbeliWeb.AdminCategoriesLive do
     {:noreply, socket
       |> assign(expand: Map.delete(socket.assigns[:expand], String.to_integer(category_id)))
       |> assign(categories: [category | ancestors])}
+  end
+
+  def handle_event("expand_all", _, socket) do
+    categories = Catalog.list_categories()
+    expand = Enum.into(categories, %{}, fn c -> {c.id, true} end)
+    {:noreply, socket
+      |> assign(expand: expand)
+      |> assign(categories: categories)}
+  end
+
+  def handle_event("collapse_all", _, socket) do
+    categories = Catalog.list_categories()
+    {:noreply, socket
+      |> assign(expand: %{})
+      |> assign(categories: categories)}
   end
 
   def handle_event("show_new_form", _, socket) do
