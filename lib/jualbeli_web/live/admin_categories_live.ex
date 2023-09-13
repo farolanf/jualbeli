@@ -100,7 +100,7 @@ defmodule JualbeliWeb.AdminCategoriesLive do
           <% else %>
             <button phx-click="delete_category" phx-value-category_id={@category.id} class="text-red-400">delete</button>
             <button phx-click="edit_category" phx-value-category_id={@category.id}>edit</button>
-            <button phx-click="show_new_child_form" phx-value-category_id={@category.id}>add</button>
+            <button phx-click="show_new_child_form" phx-value-category_id={@category.id}>new</button>
             <button :if={!@expanded} phx-click="expand" phx-value-category_id={@category.id}>+</button>
             <button :if={@expanded} phx-click="collapse" phx-value-category_id={@category.id}>-</button>
           <% end %>
