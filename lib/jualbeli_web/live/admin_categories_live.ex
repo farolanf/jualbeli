@@ -2,6 +2,7 @@ defmodule JualbeliWeb.AdminCategoriesLive do
   use JualbeliWeb, :live_view
   alias JualbeliWeb.AdminCategoriesLive.{NewCategoryForm, EditCategoryForm}
   alias Jualbeli.Catalog
+  alias Jualbeli.Catalog.Category
 
   attr :edit_category_id, :integer, default: nil
   attr :deleted_category_id, :integer, default: nil
@@ -144,55 +145,57 @@ defmodule JualbeliWeb.AdminCategoriesLive do
   end
 
   def handle_event("delete_category", %{"category_id" => category_id}, socket) do
-    category = Catalog.get_category!(category_id)
-    ancestors = Catalog.category_ancestors(category.id)
-    socket = case Catalog.delete_category(category) do
-      {:ok, category} -> socket
-        |> assign(categories: [category | ancestors])
-        |> assign(deleted_category_id: category.id)
+    category_id = String.to_integer(category_id)
+    categories = Catalog.category_ancestors(category_id, self: true)
+    socket = case Catalog.delete_category(%Category{id: category_id}) do
+      {:ok, _} -> socket
+        |> assign(categories: categories)
+        |> assign(deleted_category_id: category_id)
       _ -> socket
     end
     {:noreply, socket}
   end
 
   def handle_event("edit_category", %{"category_id" => category_id}, socket) do
-    prev_edit_category = case socket.assigns[:edit_category_id] do
-      nil -> []
-      id -> [Catalog.get_category!(id)]
+    category_id = String.to_integer(category_id)
+
+    prev_edit_category = with id when not is_nil(id) and id != category_id <- socket.assigns[:edit_category_id]
+    do
+      [Catalog.get_category!(id)]
+    else
+      _ -> []
     end
 
-    category = Catalog.get_category!(category_id)
-    ancestors = Catalog.category_ancestors(category.id)
+    categories = Catalog.category_ancestors(category_id, self: true)
 
     {:noreply, socket
-      |> assign(edit_category_id: String.to_integer(category_id))
-      |> assign(categories: [category | prev_edit_category] ++ ancestors)}
+      |> assign(edit_category_id: category_id)
+      |> assign(categories: prev_edit_category ++ categories)}
   end
 
   def handle_event("cancel_edit_category", %{"category_id" => category_id}, socket) do
-    category = Catalog.get_category!(category_id)
-    ancestors = Catalog.category_ancestors(category.id)
+    category_id = String.to_integer(category_id)
+    categories = Catalog.category_ancestors(category_id, self: true)
     {:noreply, socket
       |> assign(edit_category_id: nil)
-      |> assign(categories: [category | ancestors])}
+      |> assign(categories: categories)}
   end
 
   def handle_event("expand", %{"category_id" => category_id}, socket) do
     category_id = String.to_integer(category_id)
-    category = Catalog.get_category!(category_id)
-    children = Catalog.list_categories(parent_id: category.id)
-    ancestors = Catalog.category_ancestors(category.id)
+    children = Catalog.list_categories(parent_id: category_id)
+    categories = Catalog.category_ancestors(category_id, self: true)
     {:noreply, socket
       |> assign(expand: Map.put(socket.assigns[:expand], category_id, true))
-      |> assign(categories: [category | children] ++ ancestors)}
+      |> assign(categories: children ++ categories)}
   end
 
   def handle_event("collapse", %{"category_id" => category_id}, socket) do
-    category = Catalog.get_category!(category_id)
-    ancestors = Catalog.category_ancestors(category.id)
+    category_id = String.to_integer(category_id)
+    categories = Catalog.category_ancestors(category_id, self: true)
     {:noreply, socket
-      |> assign(expand: Map.delete(socket.assigns[:expand], String.to_integer(category_id)))
-      |> assign(categories: [category | ancestors])}
+      |> assign(expand: Map.delete(socket.assigns[:expand], category_id))
+      |> assign(categories: categories)}
   end
 
   def handle_event("expand_all", _, socket) do
