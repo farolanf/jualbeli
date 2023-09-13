@@ -82,7 +82,7 @@ defmodule JualbeliWeb.AdminCategoriesLive do
       class={[@deleted && "hidden"]}
     >
       <div
-        class="py-2 flex justify-between max-w-[350px]"
+        class="py-2 flex justify-between max-w-[350px] group"
       >
         <%= if @edit do %>
           <.live_component
@@ -94,7 +94,7 @@ defmodule JualbeliWeb.AdminCategoriesLive do
         <% else %>
           <%= @category.title %>
         <% end %>
-        <div class="flex items-start mt-1 gap-4 text-xs font-bold text-blue-700">
+        <div class="flex items-start mt-1 gap-4 text-xs font-bold text-blue-700 opacity-0 group-hover:opacity-100">
           <%= if @edit do %>
             <button phx-click="cancel_edit_category" phx-value-category_id={@category.id}>cancel</button>
           <% else %>
