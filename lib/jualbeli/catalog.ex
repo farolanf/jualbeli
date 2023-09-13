@@ -305,8 +305,14 @@ defmodule Jualbeli.Catalog do
       [%Category{}, ...]
 
   """
-  def list_categories do
-    Repo.all(Category)
+  def list_categories(opts \\ [roots: false]) do
+    q = from c in Category
+    q = if opts[:roots] do
+      from c in q, where: is_nil(c.parent_id)
+    else
+      q
+    end
+    Repo.all(q)
   end
 
   @doc """
