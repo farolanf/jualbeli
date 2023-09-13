@@ -13,7 +13,7 @@ defmodule Jualbeli.Catalog.Category do
   @doc false
   def changeset(category, attrs) do
     category
-    |> cast(attrs, [:title])
+    |> cast(attrs, [:title, :parent_id])
     |> validate_required([:title])
     |> validate_length(:title, min: 2, max: 50)
   end
