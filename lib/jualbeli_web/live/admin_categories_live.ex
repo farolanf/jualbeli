@@ -1,13 +1,12 @@
 defmodule JualbeliWeb.AdminCategoriesLive do
   use JualbeliWeb, :live_view
-
+  alias JualbeliWeb.AdminCategoriesLive.{NewCategoryForm, EditCategoryForm}
   alias Jualbeli.Catalog
-  alias Jualbeli.Catalog.Category
 
   attr :edit_category_id, :integer, default: nil
-  attr :edit_form, :any, default: nil
   attr :deleted_category_id, :integer, default: nil
   attr :expand, :map, default: %{}
+  attr :show_new_form, :integer, default: nil
 
   def render(assigns) do
     ~H"""
@@ -15,18 +14,18 @@ defmodule JualbeliWeb.AdminCategoriesLive do
       Categories
     </.header>
     <div class="space-y-12">
-      <div>
-        <.simple_form
-          for={@new_form}
-          id="new_form"
-          phx-submit="add_category"
-        >
-          <.input field={@new_form[:title]} type="text" label="Title" required />
-          <:actions>
-            <.button phx-disable-with="Adding category...">Add category</.button>
-          </:actions>
-        </.simple_form>
-      </div>
+      <button
+        phx-click="show_new_form"
+        class="text-xs font-bold text-blue-700"
+      >
+        New category
+      </button>
+      <.live_component
+        :if={@show_new_form == 0}
+        module={NewCategoryForm}
+        id="root"
+        form_class="-mt-8"
+      />
       <.category_list
         id="categories"
         class=""
@@ -34,9 +33,8 @@ defmodule JualbeliWeb.AdminCategoriesLive do
         categories={@categories}
         edit_category_id={@edit_category_id}
         deleted_category_id={@deleted_category_id}
-        edit_form={@edit_form}
-        new_form={@new_form}
         expand={@expand}
+        show_new_form={@show_new_form}
       />
     </div>
     """
@@ -55,9 +53,8 @@ defmodule JualbeliWeb.AdminCategoriesLive do
         categories={@categories}
         edit_category_id={@edit_category_id}
         deleted_category_id={@deleted_category_id}
-        edit_form={@edit_form}
-        new_form={@new_form}
         expand={@expand}
+        show_new_form={@show_new_form}
       />
     </div>
     """
@@ -73,18 +70,12 @@ defmodule JualbeliWeb.AdminCategoriesLive do
         class="py-2 flex justify-between max-w-[350px]"
       >
         <%= if @edit do %>
-          <.simple_form
-            for={@edit_form}
-            id="edit_form"
-            phx-submit="update_category"
-            class="-mt-10"
-          >
-            <.input field={@edit_form[:id]} type="hidden" />
-            <.input field={@edit_form[:title]} type="text" label="Title" required />
-            <:actions>
-              <.button phx-disable-with="Updating category...">Update category</.button>
-            </:actions>
-          </.simple_form>
+          <.live_component
+            module={EditCategoryForm}
+            id={@category.id}
+            category={@category}
+            form_class="-mt-10"
+          />
         <% else %>
           <%= @category.title %>
         <% end %>
@@ -94,7 +85,7 @@ defmodule JualbeliWeb.AdminCategoriesLive do
           <% else %>
             <button phx-click="delete_category" phx-value-category_id={@category.id} class="text-red-400">delete</button>
             <button phx-click="edit_category" phx-value-category_id={@category.id}>edit</button>
-            <button :if={@expanded} phx-click={JS.toggle(to: "#new_form-#{@category.id}")}>add</button>
+            <button phx-click="show_new_child_form" phx-value-category_id={@category.id}>add</button>
             <button :if={!@expanded} phx-click="expand" phx-value-category_id={@category.id}>+</button>
             <button :if={@expanded} phx-click="collapse" phx-value-category_id={@category.id}>-</button>
           <% end %>
@@ -104,18 +95,13 @@ defmodule JualbeliWeb.AdminCategoriesLive do
         :if={@expanded}
         id={"category-more-#{@category.id}"}
       >
-        <.simple_form
-          for={@new_form}
-          id={"new_form-#{@category.id}"}
-          phx-submit="add_category"
-          class="-mt-6 pl-8 hidden"
-        >
-          <.input field={@new_form[:parent_id]} type="hidden" />
-          <.input field={@new_form[:title]} type="text" label="Title" required />
-          <:actions>
-            <.button phx-disable-with="Adding category...">Add category</.button>
-          </:actions>
-        </.simple_form>
+        <.live_component
+          module={NewCategoryForm}
+          id={@category.id}
+          parent_id={@category.id}
+          class={[@show_new_form != @category.id && "hidden"]}
+          form_class="-mt-6 pl-8"
+        />
         <.category_list
           id={"category-children-#{@category.id}"}
           class="my-4 pl-8"
@@ -123,9 +109,8 @@ defmodule JualbeliWeb.AdminCategoriesLive do
           categories={@categories}
           edit_category_id={@edit_category_id}
           deleted_category_id={@deleted_category_id}
-          edit_form={@edit_form}
-          new_form={@new_form}
           expand={@expand}
+          show_new_form={@show_new_form}
         />
       </div>
     </div>
@@ -133,54 +118,23 @@ defmodule JualbeliWeb.AdminCategoriesLive do
   end
 
   def mount(_params, _session, socket) do
-    new_changeset = Catalog.change_category(%Category{})
     categories = Catalog.list_categories(roots: true)
 
     socket = socket
-      |> assign(new_form: to_form(new_changeset))
       |> assign(categories: categories)
       |> assign(expand: %{})
 
     {:ok, socket, temporary_assigns: [
-      new_form: nil,
-      edit_form: nil,
       categories: [],
       deleted_category_id: nil]}
   end
 
-  def handle_event("add_category", %{"category" => category_params}, socket) do
-    case Catalog.create_category(category_params) do
-      {:ok, category} ->
-        new_changeset = Catalog.change_category(%Category{})
-        {:noreply, socket
-          |> assign(new_form: to_form(new_changeset))
-          |> assign(categories: [category])}
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, socket |> assign(new_form: to_form(changeset))}
-    end
-  end
-
-  def handle_event("update_category", %{"category" => category_params}, socket) do
-    category = Catalog.get_category!(category_params["id"])
-    case Catalog.update_category(category, category_params) do
-      {:ok, category} ->
-        {:noreply, socket
-          |> assign(edit_category_id: nil)
-          |> assign(categories: [category])}
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, socket
-          |> assign(edit_form: to_form(changeset))
-          |> assign(categories: [changeset.data])}
-    end
-  end
-
   def handle_event("delete_category", %{"category_id" => category_id}, socket) do
     category = Catalog.get_category!(category_id)
+    ancestors = Catalog.category_ancestors(category.id)
     socket = case Catalog.delete_category(category) do
       {:ok, category} -> socket
-        |> assign(categories: [category])
+        |> assign(categories: [category | ancestors])
         |> assign(deleted_category_id: category.id)
       _ -> socket
     end
@@ -194,36 +148,92 @@ defmodule JualbeliWeb.AdminCategoriesLive do
     end
 
     category = Catalog.get_category!(category_id)
-    changeset = Catalog.change_category(category)
+    ancestors = Catalog.category_ancestors(category.id)
 
     {:noreply, socket
       |> assign(edit_category_id: String.to_integer(category_id))
-      |> assign(edit_form: to_form(changeset))
-      |> assign(categories: [category | prev_edit_category])}
+      |> assign(categories: [category | prev_edit_category] ++ ancestors)}
   end
 
   def handle_event("cancel_edit_category", %{"category_id" => category_id}, socket) do
     category = Catalog.get_category!(category_id)
+    ancestors = Catalog.category_ancestors(category.id)
     {:noreply, socket
       |> assign(edit_category_id: nil)
-      |> assign(categories: [category])}
+      |> assign(categories: [category | ancestors])}
   end
 
   def handle_event("expand", %{"category_id" => category_id}, socket) do
     category_id = String.to_integer(category_id)
-    new_changeset = Catalog.change_category(%Category{parent_id: category_id})
     category = Catalog.get_category!(category_id)
     children = Catalog.list_categories(parent_id: category.id)
+    ancestors = Catalog.category_ancestors(category.id)
     {:noreply, socket
       |> assign(expand: Map.put(socket.assigns[:expand], category_id, true))
-      |> assign(categories: [category | children])
-      |> assign(new_form: to_form(new_changeset))}
+      |> assign(categories: [category | children] ++ ancestors)}
   end
 
   def handle_event("collapse", %{"category_id" => category_id}, socket) do
     category = Catalog.get_category!(category_id)
+    ancestors = Catalog.category_ancestors(category.id)
     {:noreply, socket
       |> assign(expand: Map.delete(socket.assigns[:expand], String.to_integer(category_id)))
-      |> assign(categories: [category])}
+      |> assign(categories: [category | ancestors])}
+  end
+
+  def handle_event("show_new_form", _, socket) do
+    prev_show = socket.assigns[:show_new_form]
+
+    show_new_form = if prev_show && prev_show == 0, do: nil, else: 0
+
+    categories = if prev_show && prev_show != 0 do
+      Catalog.category_ancestors(prev_show, self: true)
+    else
+      []
+    end
+
+    {:noreply, socket
+      |> assign(show_new_form: show_new_form)
+      |> assign(categories: categories)}
+  end
+
+  def handle_event("show_new_child_form", %{"category_id" => category_id}, socket) do
+    category_id = String.to_integer(category_id)
+    category = Catalog.get_category!(category_id)
+    children = Catalog.list_categories(parent_id: category.id)
+    ancestors = Catalog.category_ancestors(category.id)
+
+    categories = [category | children] ++ ancestors
+
+    prev_show = socket.assigns[:show_new_form]
+
+    show_new_form = if prev_show && prev_show == category.id, do: nil, else: category.id
+
+    categories = if prev_show && prev_show != 0 && prev_show != category.id do
+      if Enum.any?(categories, fn c -> c.id == prev_show end) do
+        categories
+      else
+        [Catalog.get_category!(prev_show) | categories]
+      end
+    else
+      categories
+    end
+
+    {:noreply, socket
+      |> assign(show_new_form: show_new_form)
+      |> assign(expand: Map.put(socket.assigns[:expand], category_id, true))
+      |> assign(categories: categories)}
+  end
+
+  def handle_info({:added_category, category}, socket) do
+    ancestors = Catalog.category_ancestors(category.id)
+    {:noreply, socket |> assign(categories: [category | ancestors])}
+  end
+
+  def handle_info({:updated_category, category}, socket) do
+    ancestors = Catalog.category_ancestors(category.id)
+    {:noreply, socket
+      |> assign(edit_category_id: nil)
+      |> assign(categories: [category | ancestors])}
   end
 end

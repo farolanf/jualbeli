@@ -323,6 +323,25 @@ defmodule Jualbeli.Catalog do
     Repo.all(q)
   end
 
+  def category_ancestors(id, opts \\ [self: false]) do
+    initial_query = if opts[:self] do
+      from c in Category, where: c.id == ^id
+    else
+      parent_id = from g in Category, where: g.id == ^id, select: g.parent_id
+      from c in Category, where: c.id == subquery(parent_id)
+    end
+
+    recursive_query = from c in Category, join: a in "ancestors", on: c.id == a.parent_id
+
+    ancestors = initial_query |> union_all(^recursive_query)
+
+    Category
+      |> recursive_ctes(true)
+      |> with_cte("ancestors", as: ^ancestors)
+      |> join(:inner, [c], a in "ancestors", on: c.id == a.id)
+      |> Repo.all()
+  end
+
   @doc """
   Gets a single category.
 
