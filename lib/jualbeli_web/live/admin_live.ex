@@ -6,8 +6,9 @@ defmodule JualbeliWeb.AdminLive do
     <.header class="text-center">
       Admin
     </.header>
-    <div class="py-8">
+    <div class="py-8 flex flex-col gap-4">
       <.link href={~p"/admin/categories"}>Categories</.link>
+      <.link href={~p"/admin/attributes"}>Attributes</.link>
     </div>
     """
   end
