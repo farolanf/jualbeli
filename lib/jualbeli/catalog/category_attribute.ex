@@ -3,6 +3,8 @@ defmodule Jualbeli.Catalog.CategoryAttribute do
   import Ecto.Changeset
   alias Jualbeli.Catalog.{Category, Attribute}
 
+  @primary_key false
+
   schema "categories_attributes" do
     belongs_to :category, Category
     belongs_to :attribute, Attribute

@@ -1,6 +1,6 @@
 defmodule JualbeliWeb.AdminCategoriesLive do
   use JualbeliWeb, :live_view
-  alias JualbeliWeb.AdminCategoriesLive.{NewCategoryForm, EditCategoryForm}
+  alias JualbeliWeb.AdminCategoriesLive.{NewCategoryForm, EditCategoryForm, CategoryAttributes}
   alias Jualbeli.Catalog
   alias Jualbeli.Catalog.Category
 
@@ -8,6 +8,7 @@ defmodule JualbeliWeb.AdminCategoriesLive do
   attr :deleted_category_id, :integer, default: nil
   attr :expand, :map, default: %{}
   attr :show_new_form, :integer, default: nil
+  attr :show_attributes, :integer, default: nil
 
   def render(assigns) do
     ~H"""
@@ -50,6 +51,7 @@ defmodule JualbeliWeb.AdminCategoriesLive do
         deleted_category_id={@deleted_category_id}
         expand={@expand}
         show_new_form={@show_new_form}
+        show_attributes={@show_attributes}
       />
     </div>
     """
@@ -70,6 +72,7 @@ defmodule JualbeliWeb.AdminCategoriesLive do
         deleted_category_id={@deleted_category_id}
         expand={@expand}
         show_new_form={@show_new_form}
+        show_attributes={@show_attributes}
       />
     </div>
     """
@@ -101,6 +104,7 @@ defmodule JualbeliWeb.AdminCategoriesLive do
             <button phx-click="delete_category" phx-value-category_id={@category.id} class="text-red-400">delete</button>
             <button phx-click="edit_category" phx-value-category_id={@category.id}>edit</button>
             <button phx-click="show_new_child_form" phx-value-category_id={@category.id}>new</button>
+            <button phx-click="show_attributes" phx-value-category_id={@category.id}>attrs</button>
             <button :if={!@expanded} phx-click="expand" phx-value-category_id={@category.id}>+</button>
             <button :if={@expanded} phx-click="collapse" phx-value-category_id={@category.id}>-</button>
           <% end %>
@@ -110,6 +114,11 @@ defmodule JualbeliWeb.AdminCategoriesLive do
         :if={@expanded}
         id={"category-more-#{@category.id}"}
       >
+        <.live_component
+          module={CategoryAttributes}
+          id={@category.id}
+          class={["pl-8", @show_attributes != @category.id && "hidden"]}
+        />
         <.live_component
           module={NewCategoryForm}
           id={@category.id}
@@ -126,6 +135,7 @@ defmodule JualbeliWeb.AdminCategoriesLive do
           deleted_category_id={@deleted_category_id}
           expand={@expand}
           show_new_form={@show_new_form}
+          show_attributes={@show_attributes}
         />
       </div>
     </div>
@@ -253,6 +263,34 @@ defmodule JualbeliWeb.AdminCategoriesLive do
 
     {:noreply, socket
       |> assign(show_new_form: show_new_form)
+      |> assign(expand: Map.put(socket.assigns[:expand], category_id, true))
+      |> assign(categories: categories)}
+  end
+
+  def handle_event("show_attributes", %{"category_id" => category_id}, socket) do
+    category_id = String.to_integer(category_id)
+    category = Catalog.get_category!(category_id)
+    children = Catalog.list_categories(parent_id: category.id)
+    ancestors = Catalog.category_ancestors(category.id)
+
+    categories = [category | children] ++ ancestors
+
+    prev_show = socket.assigns[:show_attributes]
+
+    show_attributes = if prev_show && prev_show == category.id, do: nil, else: category.id
+
+    categories = if prev_show && prev_show != 0 && prev_show != category.id do
+      if Enum.any?(categories, fn c -> c.id == prev_show end) do
+        categories
+      else
+        [Catalog.get_category!(prev_show) | categories]
+      end
+    else
+      categories
+    end
+
+    {:noreply, socket
+      |> assign(show_attributes: show_attributes)
       |> assign(expand: Map.put(socket.assigns[:expand], category_id, true))
       |> assign(categories: categories)}
   end

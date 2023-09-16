@@ -530,8 +530,16 @@ defmodule Jualbeli.Catalog do
       [%CategoryAttribute{}, ...]
 
   """
-  def list_categories_attributes do
-    Repo.all(CategoryAttribute)
+  def list_categories_attributes(opts \\ [category_id: nil]) do
+    q = from ca in CategoryAttribute
+
+    q = if opts[:category_id] do
+      from ca in q, where: ca.category_id == ^opts[:category_id]
+    else
+      q
+    end
+
+    Repo.all(q)
   end
 
   @doc """
