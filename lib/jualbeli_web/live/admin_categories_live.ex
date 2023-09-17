@@ -117,6 +117,7 @@ defmodule JualbeliWeb.AdminCategoriesLive do
         <.live_component
           module={CategoryAttributes}
           id={@category.id}
+          category={@category}
           class={["pl-8", @show_attributes != @category.id && "hidden"]}
         />
         <.live_component

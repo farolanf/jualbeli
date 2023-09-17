@@ -607,7 +607,8 @@ defmodule Jualbeli.Catalog do
 
   """
   def delete_category_attribute(%CategoryAttribute{} = category_attribute) do
-    Repo.delete(category_attribute)
+    q = from ca in CategoryAttribute, where: ca.category_id == ^category_attribute.category_id and ca.attribute_id == ^category_attribute.attribute_id
+    Repo.delete_all(q)
   end
 
   @doc """

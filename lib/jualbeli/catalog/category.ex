@@ -1,11 +1,12 @@
 defmodule Jualbeli.Catalog.Category do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Jualbeli.Catalog.Category
+  alias Jualbeli.Catalog.{Category, Attribute}
 
   schema "categories" do
     field :title, :string
     belongs_to :parent, Category
+    many_to_many :attributes, Attribute, join_through: "categories_attributes"
 
     timestamps()
   end

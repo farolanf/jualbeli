@@ -15,7 +15,7 @@ defmodule Jualbeli.Catalog.CategoryAttribute do
   @doc false
   def changeset(category_attribute, attrs) do
     category_attribute
-    |> cast(attrs, [])
+    |> cast(attrs, [:category_id, :attribute_id])
     |> validate_required([])
   end
 end
