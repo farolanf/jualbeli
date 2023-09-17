@@ -9,6 +9,7 @@ defmodule JualbeliWeb.AdminCategoriesLive do
   attr :expand, :map, default: %{}
   attr :show_new_form, :integer, default: nil
   attr :show_attributes, :integer, default: nil
+  attr :category_to_delete, :any, default: nil
 
   def render(assigns) do
     ~H"""
@@ -53,6 +54,17 @@ defmodule JualbeliWeb.AdminCategoriesLive do
         show_new_form={@show_new_form}
         show_attributes={@show_attributes}
       />
+      <.modal :if={@category_to_delete} id="delete_confirmation" show on_cancel={JS.push("cancel_delete")}>
+        Delete category "<%= @category_to_delete.title %>"?
+        <.button
+          type="button"
+          phx-click="delete_category"
+          phx-value-category_id={@category_to_delete.id}
+          class="bg-red-400 block mt-4"
+        >
+          Delete
+        </.button>
+      </.modal>
     </div>
     """
   end
@@ -101,7 +113,7 @@ defmodule JualbeliWeb.AdminCategoriesLive do
           <%= if @edit do %>
             <button phx-click="cancel_edit_category" phx-value-category_id={@category.id}>cancel</button>
           <% else %>
-            <button phx-click="delete_category" phx-value-category_id={@category.id} class="text-red-400">delete</button>
+            <button phx-click="confirm_delete_category" phx-value-category_id={@category.id} class="text-red-400">delete</button>
             <button phx-click="edit_category" phx-value-category_id={@category.id}>edit</button>
             <button phx-click="show_new_child_form" phx-value-category_id={@category.id}>new</button>
             <button phx-click="show_attributes" phx-value-category_id={@category.id}>attrs</button>
@@ -155,6 +167,17 @@ defmodule JualbeliWeb.AdminCategoriesLive do
       deleted_category_id: nil]}
   end
 
+  def handle_event("confirm_delete_category", %{"category_id" => category_id}, socket) do
+    category_id = String.to_integer(category_id)
+    category_to_delete = Catalog.get_category!(category_id)
+    {:noreply, socket
+      |> assign(category_to_delete: category_to_delete)}
+  end
+
+  def handle_event("cancel_delete", _, socket) do
+    {:noreply, socket |> assign(category_to_delete: nil)}
+  end
+
   def handle_event("delete_category", %{"category_id" => category_id}, socket) do
     category_id = String.to_integer(category_id)
     categories = Catalog.category_ancestors(category_id, self: true)
@@ -162,6 +185,7 @@ defmodule JualbeliWeb.AdminCategoriesLive do
       {:ok, _} -> socket
         |> assign(categories: categories)
         |> assign(deleted_category_id: category_id)
+        |> assign(category_to_delete: nil)
       _ -> socket
     end
     {:noreply, socket}
