@@ -7,6 +7,7 @@ defmodule Jualbeli.Catalog.Location do
     field :lat, :decimal
     field :lng, :decimal
     field :loc_type, :string
+    field :loc_id, :string
     field :name, :string
     belongs_to :parent, Location
 
@@ -16,7 +17,7 @@ defmodule Jualbeli.Catalog.Location do
   @doc false
   def changeset(location, attrs) do
     location
-    |> cast(attrs, [:name, :loc_type, :lat, :lng])
-    |> validate_required([:name, :loc_type, :lat, :lng])
+    |> cast(attrs, [:name, :loc_type, :loc_id, :lat, :lng, :parent_id])
+    |> validate_required([:name, :loc_type, :loc_id, :lat, :lng])
   end
 end
