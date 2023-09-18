@@ -1,0 +1,9 @@
+attributes:
+  - name: Merek
+    type: text
+  - name: Model
+    type: text
+  - name: Warna
+    type: color
+  - name: Tahun
+    type: number

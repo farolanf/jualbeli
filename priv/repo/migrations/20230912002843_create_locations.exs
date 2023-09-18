@@ -5,6 +5,7 @@ defmodule Jualbeli.Repo.Migrations.CreateLocations do
     create table(:locations) do
       add :name, :string
       add :loc_type, :string
+      add :loc_id, :string, null: false
       add :lat, :decimal
       add :lng, :decimal
       add :parent_id, references(:locations, on_delete: :restrict)
@@ -14,6 +15,7 @@ defmodule Jualbeli.Repo.Migrations.CreateLocations do
 
     create index(:locations, [:parent_id])
     create index(:locations, [:lat, :lng])
+    create unique_index(:locations, [:loc_id])
 
     alter table(:products) do
       add :location_id, references(:locations, on_delete: :restrict), null: false

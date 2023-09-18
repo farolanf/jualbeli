@@ -8,5 +8,7 @@ defmodule Jualbeli.Repo.Migrations.CreateAttributes do
 
       timestamps()
     end
+
+    create unique_index(:attributes, [:label])
   end
 end

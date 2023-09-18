@@ -1,0 +1,21 @@
+categories:
+  - name: Mobil
+    attrs:
+      - Merek
+      - Model
+      - Warna
+      - Tahun
+    children:
+      - name: Honda
+      - name: Toyota
+      - name: Suzuki
+  - name: Motor
+    attrs:
+      - Merek
+      - Model
+      - Warna
+      - Tahun
+    children:
+      - name: Honda
+      - name: Toyota
+      - name: Suzuki
