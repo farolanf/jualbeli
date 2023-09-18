@@ -4,8 +4,8 @@ defmodule Jualbeli.Repo.Migrations.CreateProductsAttributes do
   def change do
     create table(:products_attributes) do
       add :value, :string
-      add :product_id, references(:products, on_delete: :delete_all)
-      add :attribute_id, references(:attributes, on_delete: :delete_all)
+      add :product_id, references(:products, on_delete: :restrict)
+      add :attribute_id, references(:attributes, on_delete: :restrict)
 
       timestamps()
     end

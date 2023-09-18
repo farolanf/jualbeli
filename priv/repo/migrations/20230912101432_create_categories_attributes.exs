@@ -3,8 +3,8 @@ defmodule Jualbeli.Repo.Migrations.CreateCategoriesAttributes do
 
   def change do
     create table(:categories_attributes, primary_key: false) do
-      add :category_id, references(:categories, on_delete: :delete_all)
-      add :attribute_id, references(:attributes, on_delete: :delete_all)
+      add :category_id, references(:categories, on_delete: :restrict)
+      add :attribute_id, references(:attributes, on_delete: :restrict)
 
       timestamps()
     end

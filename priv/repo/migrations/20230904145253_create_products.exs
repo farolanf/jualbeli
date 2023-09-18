@@ -6,8 +6,8 @@ defmodule Jualbeli.Repo.Migrations.CreateProducts do
       add :title, :string
       add :description, :string
       add :price, :decimal
-      add :category_id, references(:categories)
-      add :user_id, references(:users)
+      add :category_id, references(:categories), null: false
+      add :user_id, references(:users), null: false
 
       timestamps()
     end

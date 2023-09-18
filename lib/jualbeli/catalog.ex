@@ -305,7 +305,7 @@ defmodule Jualbeli.Catalog do
       [%Category{}, ...]
 
   """
-  def list_categories(opts \\ [roots: false, parent_id: nil]) do
+  def list_categories(opts \\ [roots: false, parent_id: nil, order_by: nil]) do
     q = from c in Category
 
     q = if opts[:roots] do
@@ -316,6 +316,12 @@ defmodule Jualbeli.Catalog do
 
     q = if opts[:parent_id] do
       from c in q, where: c.parent_id == ^opts[:parent_id]
+    else
+      q
+    end
+
+    q = if opts[:order_by] do
+      from c in q, order_by: c.title
     else
       q
     end

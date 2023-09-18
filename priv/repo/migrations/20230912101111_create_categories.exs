@@ -4,7 +4,7 @@ defmodule Jualbeli.Repo.Migrations.CreateCategories do
   def change do
     create table(:categories) do
       add :title, :string
-      add :parent_id, references(:categories, on_delete: :nothing)
+      add :parent_id, references(:categories, on_delete: :restrict)
 
       timestamps()
     end

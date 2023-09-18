@@ -8,7 +8,7 @@ defmodule Jualbeli.Repo.Migrations.CreateHighlights do
       add :point_price, :integer
       add :duration_days, :integer
       add :expired_at, :naive_datetime
-      add :user_id, references(:users, on_delete: :delete_all)
+      add :user_id, references(:users, on_delete: :restrict), null: false
 
       timestamps()
     end
@@ -16,7 +16,7 @@ defmodule Jualbeli.Repo.Migrations.CreateHighlights do
     create index(:highlights, [:user_id])
 
     alter table(:products) do
-      add :highlight_id, references(:highlights, on_delete: :nilify_all)
+      add :highlight_id, references(:highlights, on_delete: :restrict)
     end
 
     create unique_index(:products, [:highlight_id])

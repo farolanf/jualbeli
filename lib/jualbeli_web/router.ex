@@ -27,6 +27,15 @@ defmodule JualbeliWeb.Router do
   scope "/", JualbeliWeb do
     pipe_through [:browser, :require_authenticated_user]
 
+    live_session :user,
+      on_mount: [{JualbeliWeb.UserAuth, :ensure_authenticated}] do
+      live "/newproduct", NewProductLive, :edit
+    end
+  end
+
+  scope "/", JualbeliWeb do
+    pipe_through [:browser, :require_authenticated_user]
+
     live_session :admin,
       on_mount: [{JualbeliWeb.UserAuth, :ensure_authenticated}] do
       live "/admin", AdminLive, :home
