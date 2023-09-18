@@ -1,21 +1,355 @@
 categories:
+  - name: Pakaian Wanita
+    children:
+      - name: Atasan
+        children:
+          - name: Tanktop & Kamisol
+          - name: Kemben
+          - name: Kaos
+          - name: Kemeja & Blouse
+          - name: Kaos Berkerah
+          - name: Bodysuit
+          - name: Atasan Lainnya
+      - name: Celana Panjang & Legging
+        children:
+          - name: Legging & Tregging
+          - name: Celana Panjang
+          - name: Celana Panjang & Legging Lainnya
+      - name: Celana Pendek
+        children:
+          - name: Celana Pendek
+          - name: Rok Celana
+          - name: Celana Pendek Lainnya
+      - name: Rok
+      - name: Celana Jeans
+      - name: Dress
+      - name: Wedding Dress
+      - name: Jumpsuit, Playsuit & Overall
+        children:
+          - name: Jumpsuit
+          - name: Playsuit
+          - name: Overall
+          - name: Jumpsuit, Playsuit & Overall Lainnya
+      - name: Jaket, Mantel, & Rompi
+        children:
+          - name: Jaket & Mantel Musim Dingin
+          - name: Cape
+          - name: Blazer
+          - name: Jaket
+          - name: Rompi
+          - name: Jaket, Mantel, & Rompi Lainnya
+      - name: Sweater & Cardigan
+      - name: Hoodie & Sweatshirt
+        children:
+          - name: Sweatshirt
+          - name: Hoodie
+          - name: Hoodie & Sweatshirt Lainnya
+      - name: Set
+        children:
+          - name: Set Pakaian Couple
+          - name: Set Pakaian Keluarga
+          - name: Set Wanita
+          - name: Set Lainnya
+      - name: Pakaian Dalam
+        children:
+          - name: Set Pakaian Dalam
+          - name: Bra
+          - name: Celana Dalam
+          - name: Pakian Dalam Termal
+          - name: Aksesoris Bra
+            children:
+              - name: Strap
+              - name: Padding
+              - name: Stiker Nipple
+              - name: Aksesoris Bra Lainnya
+          - name: Korset
+          - name: Celana Stretch
+          - name: Sexy Lingerie
+          - name: Pakaian Dalam Lainnya
+      - name: Pakaian Tidur & Piyama
+        children:
+          - name: Piyama
+          - name: Daster
+          - name: Kimono
+          - name: Pakaian Tidur & Piyama Lainnya
+      - name: Baju Hamil
+        children:
+          - name: Bra Menyusui
+          - name: Dress Hamil
+          - name: Atasan Hamil
+          - name: Baju Menyusui
+          - name: Set Baju Hamil
+          - name: Celana Hamil
+          - name: Baju Hamil Lainnya
+      - name: Pakaian Tradisional
+        children:
+          - name: Atasan Tradisional
+          - name: Bawahan Tradisional
+          - name: Set Pakaian Tradisional
+          - name: Dress Tradisional
+          - name: Pakian Tradisional Lainnya
+      - name: Kostum
+      - name: Pakaian Wanita Lainnya
+      - name: Kain
+        children:
+          - name: Batik
+          - name: Kebaya
+          - name: Katun
+          - name: Wol
+          - name: Beludru, Sutra, & Satin
+          - name: Kulit
+          - name: Vinil & Nilon
+          - name: Denim
+          - name: Kanvas
+          - name: Songket
+          - name: Kain Lainnya
+      - name: Kaos Kaki & Stocking
+        children:
+          - name: Kaos Kaki
+          - name: Stocking
+          - name: Kaos Kaki & Stocking Lainnya
+  - name: Pakaian Pria
+    children:
+      - name: Celana Panjang Jeans
+      - name: Hoodie & Sweatshirt
+        children:
+          - name: Hoodie
+          - name: Sweatshirt
+          - name: Hoodie & Sweatshirt Lainnya
+      - name: Sweater & Cardigan
+      - name: Jaket, Mantel, & Rompi
+        children:
+          - name: Jaket & Mantel Musim Dingin
+          - name: Jaket
+          - name: Rompi
+          - name: Jaket, Mantel, & Rompi Lainnya
+      - name: Jas Formal
+        children:
+          - name: Set Jas Formal
+          - name: Jas & Blazer Format
+          - name: Celana Formal
+          - name: Rompi Formal
+          - name: Jas Formal Lainnya
+      - name: Celana Panjang
+        children:
+          - name: Cargo
+          - name: Jogger
+          - name: Celana Panjang
+          - name: Celana Panjang Lainnya
+      - name: Celana Pendek
+      - name: Atasan
+        children:
+          - name: Kemeja
+          - name: Kaos Polo
+          - name: Kaos
+          - name: Tanktop
+          - name: Atasan Lainnya
+      - name: Pakaian Dalam
+        children:
+          - name: Celana Dalam
+          - name: Kaos Dalam
+          - name: Pakaian Dalam Termal
+          - name: Pakaian Dalam Lainnya
+      - name: Pakaian Tidur
+      - name: Set Pakaian Pria
+      - name: Pakaian Tradisional
+        children:
+          - name: Atasan Tradisional
+          - name: Bawahan Tradisional
+          - name: Set Pakaian Tradisional
+          - name: Pakaian Tradisional Lainnya
+      - name: Kostum
+      - name: Pakaian Kerja
+      - name: Pakaian Pria Lainnya
+      - name: Kaos Kaki
+  - name: Perawatan & Kecantikan
+    children:
+      - name: Perawatan Tangan, Kaki & Kuku
+        children:
+          - name: Perawatan Tangan
+            children:
+              - name: Masker Tangan
+              - name: Lotion, Cream & Scrub
+              - name: Sabun Cuci Tangan
+              - name: Perawatan Tangan Lainnya
+          - name: Perawatan Kaki
+            children:
+              - name: Deodoran Kaki
+              - name: Masker Kaki
+              - name: Lotion, Cream & Scrub
+              - name: Perawatan Kaki Lainnya
+          - name: Perawatan Kuku
+            children:
+              - name: Base & Top Coat
+              - name: Cat Kuku
+              - name: Pembersih Cat Kuku
+              - name: Treatment Kuku
+              - name: Kuku Palsu
+              - name: Nail Art & Sticker
+              - name: Alat & Mesin Manicure
+              - name: Perawatan Kuku Lainnya
+          - name: Perawatan Tangan, Kaki & Kuku Lainnya
+      - name: Perawatan Rambut
+        children:
+          - name: Shampo
+          - name: Pewarna Rambut
+          - name: Treatment Rambut
+          - name: Kondisioner Rambut dan Kulit Kepala
+          - name: Hair Styling
+          - name: Perawatan Rambut Lainnya
+      - name: Perawatan Pria
+        children:
+          - name: Perawatan Tubuh
+          - name: Perawatan Wajah
+            children:
+              - name: Pembersih Wajah
+              - name: Pelembab & Treatment
+              - name: Perawatan Wajah Lainnya
+          - name: Shaving & Grooming
+            children:
+              - name: Perawatan Setelah Bercukur
+              - name: Cream, Foam & Gel
+              - name: Pisau Cukur
+              - name: Alat Cukur
+              - name: Sikat Cukur
+              - name: Trimmers, Gunting & Groomer Multi-fungsi
+              - name: Aksesoris Cukur
+              - name: Shaving & Grooming Lainnya
+          - name: Perawatan Rambut
+          - name: Perawatan Pria Lainnya
+      - name: Parfum & Wewangian
+      - name: Kosmetik
+        children:
+          - name: Kosmetik Lainnya
+          - name: Kosmetik Wajah
+            children:
+              - name: Make Up Base & Primer
+              - name: Foundation
+              - name: BB & CC Cream
+              - name: Bedak
+              - name: Concealer & Corrector
+              - name: Bronzer, Contour & Highlighter
+              - name: Setting & Finishing Spray
+              - name: Blush
+              - name: Kosmetik Wajah Lainnya
+          - name: Kosmetik Mata
+            children:
+              - name: Eyeshadow
+              - name: Primer Mata
+              - name: Eyeliner
+              - name: Maskara
+              - name: Eyebrow
+              - name: Kosmetik Mata Lainnya
+          - name: Kosmetik Bibir
+            children:
+              - name: Lipstik
+              - name: Lip Gloss
+              - name: Lip Liner
+              - name: Lip Tint
+              - name: Lip Plumper
+              - name: Kosmetik Bibir Lainnya
+          - name: Pembersih Make Up
+      - name: Alat Kecantikan
+        children:
+          - name: Aksesoris Make Up
+            children:
+              - name: Aksesoris Make Up Lainnya
+              - name: Kapas
+              - name: Tas Nake Up
+              - name: Kaca / Cermin
+              - name: Pembersih Make Up Brush
+              - name: Make Up Brush
+              - name: Make Up Sponge & Applicator
+              - name: Penjepit Bulu Mata
+              - name: Eyebrow Template
+              - name: Bulu Mata Palsu
+              - name: Skot Nata
+              - name: Rautan
+          - name: Alat Perawatan Wajah
+            children:
+              - name: Facial Steamer
+              - name: Alat Pelangsing & Pijat Wajah
+              - name: Alat Pembersih Wajah
+              - name: Alat Perawatan Wajah Lainnya
+          - name: Alat Pelangsing Tubuh
+          - name: Alat Penghilang Bulu Rambut
+          - name: Alat Rambut
+            children:
+              - name: Sisir
+              - name: Hair Dryer
+              - name: Peraltan Styling Rambut
+              - name: Alat Styling Heatless
+              - name: Alat Rambut Lainnya
+          - name: Alat Kecantikan Lainnya
+      - name: Perawatan Wajah
+        children:
+          - name: Pembersih Wajah
+          - name: Toner
+          - name: Pelembab Wajah
+          - name: Minyak Wajah
+          - name: Facial Mist
+          - name: Serum & Essence Wajah
+          - name: Scrub & Peel Wajah
+          - name: Masker Wajah
+          - name: Treatment Mata
+            children:
+              - name: Cream Mata
+              - name: Masker Mata
+              - name: Serum Alis & Bulu Mata
+              - name: Treatment Mata Lainnya
+          - name: Treatment Bibir
+            children:
+              - name: Pelembab Bibir
+              - name: Scrub & Exfoliator Bibir
+              - name: Masker Bibir
+              - name: Treatment Bibir Lainnya
+          - name: Sunscreen Wajah
+          - name: Perawatan Wajah After Sun
+          - name: Kertas Minyak
+          - name: Treatment Jerawat
+          - name: Perawatan Wajah Lainnya
+      - name: Pakaian & Set Kecantikan
+      - name: Perawatan & Kecantikan Lainnya 
+      - name: Perawatan Tubuh
+        children:
+          - name: Sabun Mandi
+          - name: Scrub & Peel Tubuh
+          - name: Masker Tubuh
+          - name: Minyak Tubuh
+          - name: Body Cream, Body Lotion & Body Butter
+          - name: Deodoran
+          - name: Minyak Pijat
+          - name: Cream & Wax Penghilang Bulu Rambut
+          - name: Sun Care
+            children:
+              - name: Sunscreen & Aftersun Tubuh
+              - name: Tanneng Oil & Self Tanners
+              - name: Sun Care Lainnya
+          - name: Perawatan Payudara
+          - name: Perawatan Tubuh Lainnya
+  - name: Kesehatan
+  - name: Aksesoris Fashion
+  - name: Elektronik
+  - name: Sepatu Pria
+  - name: Handphone & Aksesoris
+  - name: Fashion Muslim
+  - name: Koper & Tas Travel
+  - name: Tas Wanita
+  - name: Sepatu Wanita
+  - name: Tas Pria
+  - name: Jam Tangan
+  - name: Audio
+  - name: Makanan & Minuman
+  - name: Hewan Peliharaan
+  - name: Ibu & Bayi
+  - name: Fashion Bayi & Anak
+  - name: Gaming & Konsol
+  - name: Perlengkapan Rumah
+  - name: Olahraga & Outdoor
+  - name: Buku & Alat Tulis
+  - name: Hobi & Koleksi
   - name: Mobil
-    attrs:
-      - Merek
-      - Model
-      - Warna
-      - Tahun
-    children:
-      - name: Honda
-      - name: Toyota
-      - name: Suzuki
-  - name: Motor
-    attrs:
-      - Merek
-      - Model
-      - Warna
-      - Tahun
-    children:
-      - name: Honda
-      - name: Toyota
-      - name: Suzuki
+  - name: Sepeda Motor
+  - name: Tiket, Voucher, & Layanan
+  - name: Buku & Majalah
+  - name: Komputer & Aksesoris
